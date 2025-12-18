@@ -473,6 +473,46 @@ select:hover,
 }
 
 @media (max-width:700px){
+     /* ===== MOBILE TYPE SCALE FIX ===== */
+
+  /* Main title: calm it down */
+  h1{
+    font-size: 30px;
+    line-height: 1.15;
+  }
+
+  /* Page section titles (Study / Quiz) */
+  .sectionTitle{
+    font-size: 24px;
+  }
+
+  /* Quiz question */
+  .question{
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  /* Quiz answer buttons — make them readable */
+  .optBtn{
+    font-size: 17px;
+    font-weight: 700;
+    padding: 16px;
+  }
+
+  /* Body / example text */
+  .subtitle,
+  .meaning,
+  .example,
+  .small{
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* Prefix / suffix term label */
+  .term{
+    font-size: 17px;
+  }
+
   .container{ padding: 34px 16px 120px; }
   .segment{ display:none; }
 
