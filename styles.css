@@ -473,6 +473,14 @@ select:hover,
 }
 
 @media (max-width:700px){
+     /* Make Category select match filter button height */
+  .sideCard select{
+    height: 52px;                 /* matches buttons */
+    padding: 0 16px;              /* horizontal padding */
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+  }
      /* ===== MOBILE TYPE SCALE FIX ===== */
 
   /* Main title: calm it down */
