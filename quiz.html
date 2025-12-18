@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Medical Terms — Quiz</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .hidden{ display:none; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="topbar">
+    <div>
+      <h1>Medical Terms</h1>
+      <p class="subtitle">Quiz yourself on prefixes & suffixes</p>
+    </div>
+
+    <div class="nav">
+      <div class="segment">
+        <a href="index.html">Study</a>
+        <a class="active" href="quiz.html">Quiz</a>
+      </div>
+      <button class="themeBtn" id="themeToggle">🌙</button>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <h2 class="sectionTitle">Quiz</h2>
+
+  <div class="quizWrap">
+    <!-- LEFT -->
+    <div class="card quizCard">
+      <div class="qTop">
+        <div class="badge" id="modeLabel">Prefixes</div>
+
+        <div class="scoreBox">
+          <!-- Hidden until quiz completes -->
+          <div class="scoreMeta hidden" id="scoreMeta">
+            Score: <span id="score">0</span>/<span id="total">0</span>
+          </div>
+
+          <!-- ✅ Streak number INCLUDED -->
+          <div class="streakMeta">
+            Streak: <span id="streak">0</span> <span id="streakEmoji">😵</span>
+          </div>
+
+          <div class="streakBar">
+            <div class="streakFill" id="streakFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question" id="question">Loading…</div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+
+      <div class="controls">
+        <button class="primaryBtn" id="nextBtn">Next</button>
+        <button class="secondaryBtn" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="card sideCard">
+      <div class="badge">Filter by</div>
+      <div class="controls">
+        <button class="secondaryBtn" id="prefixBtn">Prefixes</button>
+        <button class="secondaryBtn" id="suffixBtn">Suffixes</button>
+        <button class="secondaryBtn" id="mixedBtn">Mixed</button>
+      </div>
+
+      <div class="badge">Category</div>
+      <select id="categorySelect"></select>
+    </div>
+  </div>
+</div>
+
+<nav class="bottomTabs">
+  <a href="index.html">Study</a>
+  <a class="active" href="quiz.html">Quiz</a>
+</nav>
+
+<script src="terms.js"></script>
+<script>
+/* ===== THEME ===== */
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeToggle");
+root.dataset.theme = localStorage.getItem("theme") || "dark";
+themeBtn.textContent = root.dataset.theme === "dark" ? "🌙" : "☀️";
+
+themeBtn.onclick = () => {
+  root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem("theme", root.dataset.theme);
+  themeBtn.textContent = root.dataset.theme === "dark" ? "🌙" : "☀️";
+};
+
+/* ===== QUIZ LOGIC ===== */
+let mode = "prefix";
+let category = "All Categories";
+let score = 0;
+let streak = 0;
+let locked = false;
+let questionQueue = [];
+let qIndex = 0;
+let current = null;
+
+const STREAK_CAP = 10;
+
+const els = {
+  modeLabel: document.getElementById("modeLabel"),
+  scoreMeta: document.getElementById("scoreMeta"),
+  score: document.getElementById("score"),
+  total: document.getElementById("total"),
+  streak: document.getElementById("streak"),
+  emoji: document.getElementById("streakEmoji"),
+  streakFill: document.getElementById("streakFill"),
+  q: document.getElementById("question"),
+  opts: document.getElementById("options"),
+  fb: document.getElementById("feedback"),
+  cat: document.getElementById("categorySelect")
+};
+
+const cats = g => Object.keys(g);
+const flat = (g,c) => (!c || c === "All Categories") ? Object.values(g).flat() : (g[c] || []);
+const shuffle = a => [...a].sort(() => Math.random() - 0.5);
+
+function streakEmoji(n){
+  if (n >= 10) return "🔥";
+  if (n >= 7) return "😤";
+  if (n >= 5) return "💪";
+  if (n >= 3) return "😎";
+  if (n >= 1) return "🙂";
+  return "😵";
+}
+
+function setStreakProgress(){
+  els.streakFill.style.width =
+    Math.min(100, (streak / STREAK_CAP) * 100) + "%";
+}
+
+function buildCats(){
+  let list = ["All Categories"];
+  if (mode === "prefix") list.push(...cats(TERMS.prefixes));
+  else if (mode === "suffix") list.push(...cats(TERMS.suffixes));
+  else list.push(...new Set([...cats(TERMS.prefixes), ...cats(TERMS.suffixes)]));
+
+  els.cat.innerHTML = list.map(c => `<option>${c}</option>`).join("");
+  els.cat.value = category;
+}
+
+function pool(){
+  if (mode === "prefix") return flat(TERMS.prefixes, category);
+  if (mode === "suffix") return flat(TERMS.suffixes, category);
+  return [...flat(TERMS.prefixes, category), ...flat(TERMS.suffixes, category)];
+}
+
+function rebuildQuiz(){
+  score = 0;
+  streak = 0;
+  locked = false;
+
+  els.score.textContent = "0";
+  els.streak.textContent = "0";
+  els.emoji.textContent = streakEmoji(0);
+  els.scoreMeta.classList.add("hidden");
+  setStreakProgress();
+
+  questionQueue = shuffle(pool());
+  qIndex = 0;
+  els.total.textContent = questionQueue.length;
+
+  ask();
+}
+
+function ask(){
+  locked = false;
+  els.fb.textContent = "";
+  els.fb.classList.remove("show", "good", "bad");
+
+  if (qIndex >= questionQueue.length){
+    els.q.textContent = "Quiz complete.";
+    els.opts.innerHTML = "";
+    els.scoreMeta.classList.remove("hidden");
+    return;
+  }
+
+  current = questionQueue[qIndex];
+  els.modeLabel.textContent =
+    mode === "prefix" ? "Prefixes" :
+    mode === "suffix" ? "Suffixes" : "Mixed";
+
+  els.q.textContent = `What does "${current.part}" mean?`;
+
+  const meanings = [...new Set(pool().map(x => x.meaning))];
+  const answers = shuffle([
+    current.meaning,
+    ...shuffle(meanings.filter(m => m !== current.meaning)).slice(0,3)
+  ]);
+
+  els.opts.innerHTML = "";
+  answers.forEach(a => {
+    const b = document.createElement("button");
+    b.className = "optBtn";
+    b.textContent = a;
+    b.onclick = () => answer(a);
+    els.opts.appendChild(b);
+  });
+}
+
+function answer(a){
+  if (locked) return;
+  locked = true;
+
+  const correct = a === current.meaning;
+
+  if (correct){
+    score++;
+    streak++;
+  } else {
+    streak = 0;
+  }
+
+  els.score.textContent = score;
+  els.streak.textContent = streak;
+  els.emoji.textContent = streakEmoji(streak);
+  setStreakProgress();
+
+  [...els.opts.children].forEach(btn => btn.disabled = true);
+
+  els.fb.textContent = correct
+    ? `Correct — ${current.example}`
+    : `Correct answer: ${current.meaning} — ${current.example}`;
+
+  els.fb.classList.add("show");
+  els.fb.classList.add(correct ? "good" : "bad");
+
+  qIndex++;
+
+  if (qIndex >= questionQueue.length){
+    els.scoreMeta.classList.remove("hidden");
+  }
+}
+
+function setMode(m){
+  mode = m;
+  buildCats();
+  rebuildQuiz();
+}
+
+/* events */
+prefixBtn.onclick = () => setMode("prefix");
+suffixBtn.onclick = () => setMode("suffix");
+mixedBtn.onclick = () => setMode("mixed");
+nextBtn.onclick = ask;
+resetBtn.onclick = rebuildQuiz;
+els.cat.onchange = e => { category = e.target.value; rebuildQuiz(); };
+
+/* init */
+buildCats();
+rebuildQuiz();
+</script>
+
+</body>
+</html>

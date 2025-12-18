@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Medical Terms — Study</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="container">
+  <div class="topbar">
+    <div>
+      <h1>Medical Terms</h1>
+      <p class="subtitle">Study prefixes and suffixes</p>
+    </div>
+
+    <div class="nav">
+      <div class="segment">
+        <a class="active" href="index.html">Study</a>
+        <a href="quiz.html">Quiz</a>
+      </div>
+      <button class="themeBtn" id="themeToggle">🌙</button>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <h2 class="sectionTitle">Study</h2>
+  <div id="prefixSections"></div>
+
+  <!-- <h2 class="sectionTitle" style="margin-top:48px;">Suffixes</h2> -->
+  <div id="suffixSections"></div>
+
+  <!-- ✅ DESKTOP FLOATING STUDY / QUIZ (INSIDE CONTAINER) -->
+  <nav class="floatTabs" id="floatTabs">
+    <a class="active" href="index.html">Study</a>
+    <a href="quiz.html">Quiz</a>
+  </nav>
+</div>
+
+<!-- MOBILE TABS (unchanged) -->
+<nav class="bottomTabs">
+  <a class="active" href="index.html">Study</a>
+  <a href="quiz.html">Quiz</a>
+</nav>
+
+<script src="terms.js"></script>
+<script>
+/* ===== THEME ===== */
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeToggle");
+root.dataset.theme = localStorage.getItem("theme") || "dark";
+themeBtn.textContent = root.dataset.theme === "dark" ? "🌙" : "☀️";
+
+themeBtn.onclick = () => {
+  root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem("theme", root.dataset.theme);
+  themeBtn.textContent = root.dataset.theme === "dark" ? "🌙" : "☀️";
+};
+
+/* ===== RENDER STUDY TABLES ===== */
+function renderSections(containerId, groups, label){
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = Object.entries(groups).map(([title, items]) => `
+    <div class="sectionBlock">
+      <div class="sectionLabel">${title}</div>
+      <div class="card">
+        <table class="table">
+          <colgroup>
+            <col style="width:22%">
+            <col style="width:28%">
+            <col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>${label}</th>
+              <th>Meaning</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items.map(i => `
+              <tr>
+                <td class="term" data-label="${label}">${i.part}</td>
+                <td class="meaning" data-label="Meaning">${i.meaning}</td>
+                <td class="example" data-label="Example">
+  ${i.example}
+</td>
+
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join("");
+}
+
+renderSections("prefixSections", TERMS.prefixes, "Prefix");
+renderSections("suffixSections", TERMS.suffixes, "Suffix");
+
+/* ===== FLOATING TABS: SHOW ONLY AT BOTTOM ===== */
+const floatTabs = document.getElementById("floatTabs");
+
+function updateFloatTabs(){
+  // Desktop only
+  if (window.matchMedia("(max-width:700px)").matches){
+    floatTabs.classList.remove("show");
+    return;
+  }
+
+  const reachedBottom =
+    window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 40;
+
+  floatTabs.classList.toggle("show", reachedBottom);
+}
+
+window.addEventListener("scroll", updateFloatTabs, { passive: true });
+window.addEventListener("resize", updateFloatTabs);
+updateFloatTabs();
+
+const stickyLabels = Array.from(document.querySelectorAll(".sectionLabel"));
+
+function updateStickyBorders(){
+  // small tolerance for sub-pixel rounding
+  stickyLabels.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    el.classList.toggle("is-stuck", top <= 0.5);
+  });
+}
+
+window.addEventListener("scroll", updateStickyBorders, { passive: true });
+window.addEventListener("resize", updateStickyBorders);
+updateStickyBorders();
+
+</script>
+
+</body>
+</html>

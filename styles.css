@@ -1,0 +1,529 @@
+:root{
+   --bg:#0f1115;
+  --card:#171c27;              /* ✅ a bit lighter than before */
+  --text:#e9ecf1;
+  --muted:#a7afbf;
+  --line:rgba(255,255,255,.10);/* ✅ slightly stronger border */
+  --shadow: 0 18px 40px rgba(0,0,0,.45); /* ✅ clearer lift */
+  --radius:14px;
+  --max: 1080px;
+}
+
+/* ✅ SOFTER LIGHT MODE (less eye strain) */
+[data-theme="light"]{
+  --bg:#f9fafb;           /* page surface */
+  --card:#ffffff;         /* card surface (kept white) */
+  --text:#111827;
+  --muted:#6b7280;
+  --line:rgba(17,24,39,.10);
+  --shadow: 0 10px 24px rgba(17,24,39,.08);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color:var(--text);
+}
+
+a{ color:inherit; text-decoration:none; }
+
+.container{
+  max-width: var(--max);
+  margin:0 auto;
+  padding:56px 24px 96px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+}
+
+h1{
+  margin:0 0 8px;
+  font-size:44px;
+  letter-spacing:-.02em;
+}
+
+.subtitle{
+  margin:0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.4;
+}
+
+.nav{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.segment{
+  display:flex;
+  padding:6px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.02);
+}
+
+.segment a{
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:800;
+  font-size:14px;
+  opacity:.78;
+}
+
+.segment a.active{
+  background:rgba(255,255,255,.06);
+  opacity:1;
+}
+
+.themeBtn{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  color:var(--text);
+  cursor:pointer;
+  font-weight:800;
+}
+
+.hr{
+  height:1px;
+  background:var(--line);
+  margin:28px 0;
+}
+
+.sectionTitle{
+  font-size:32px;
+  margin:0 0 14px;
+  letter-spacing:-.01em;
+}
+
+/* Each category block */
+.sectionBlock{
+  margin-bottom:28px;
+  scroll-margin-top: 74px;
+}
+
+/* Sticky category headers */
+.sectionLabel{
+  position: sticky;
+  top: 0;
+  z-index: 200;
+
+  margin: 0;
+  padding: 14px 18px;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing:-.01em;
+
+  background: rgba(15,17,21,.92);
+  border-bottom: none;
+  backdrop-filter: blur(12px);
+  border-radius: 0;
+}
+
+/* border ONLY when stuck */
+.sectionLabel.is-stuck{
+  border-bottom: 1px solid var(--line);
+}
+
+/* ✅ softer light header bg */
+[data-theme="light"] .sectionLabel{
+  background: rgba(249,250,251,.96);
+}
+
+.card{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  background: var(--card);     /* ✅ solid card surface */
+  box-shadow: var(--shadow);   /* ✅ subtle lift */
+}
+
+/* Improve card separation in LIGHT MODE */
+[data-theme="light"] .card{
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+/* Table */
+.table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+
+.table thead th{
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:12px;
+  color:var(--muted);
+  text-align:left;
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+  background: rgba(255,255,255,.01);
+}
+
+.table td{
+  padding:16px 18px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+
+.table tr:last-child td{
+  border-bottom:none;
+}
+
+.term{
+  font-weight:900;
+  font-size:18px;
+}
+
+.meaning{
+  font-size:16px;
+  white-space: normal;
+  padding-right: 24px;
+}
+
+.example{
+  color:var(--muted);
+  line-height:1.45;
+}
+
+.example .word{
+  color:var(--text);
+  font-weight:900;
+}
+
+/* ✅ light mode zebra (subtle, no glare) */
+[data-theme="light"] .table tbody tr:nth-child(even){
+  background: rgba(17,24,39,.02);
+}
+
+/* Quiz layout */
+.quizWrap{
+  margin-top: 18px;
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 22px;
+}
+
+.quizCard, .sideCard{
+  padding: 20px;
+}
+
+.qTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom: 10px;
+}
+
+.badge{
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+/* ===== Score/Streak progress (Quiz header right side) ===== */
+.scoreBox{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+  min-width: 220px;
+}
+
+.scoreMeta{
+  font-weight: 900;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ✅ streak text matches score typography */
+.streakMeta{
+  font-weight: 900;
+  color: var(--muted);
+  letter-spacing: .02em;
+  font-size: 14px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.hidden{ display:none; }
+
+.streakBar{
+  width: 220px;
+  max-width: 46vw;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  overflow: hidden;
+}
+
+.streakFill{
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: #a7ffcf;
+  transition: width .22s cubic-bezier(.2,.9,.2,1);
+}
+
+/* light mode streak bar bg + fill */
+[data-theme="light"] .streakBar{
+  background: rgba(17,24,39,.04);
+}
+[data-theme="light"] .streakFill{
+  background: #0f6b3f;
+}
+
+/* ✅ bigger emoji */
+.streakMeta #streakEmoji{
+  font-size: 22px;
+  line-height: 1;
+}
+
+.question{
+  margin: 10px 0 14px;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.options{
+  display:flex;
+  flex-direction: column;
+  gap:10px;
+  margin-top: 10px;
+}
+
+.optBtn{
+  text-align:left;
+  padding: 14px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  color: var(--text);
+  cursor:pointer;
+  font-weight: 850;
+}
+
+.optBtn:disabled{
+  opacity:.75;
+  cursor:not-allowed;
+}
+
+.feedback{
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  color: var(--muted);
+  line-height: 1.45;
+  display:none;
+}
+
+.feedback.show{ display:block; }
+.feedback.good{ color: #a7ffcf; }
+.feedback.bad{ color: #ffb3b3; }
+
+.controls{
+  display:flex;
+  gap:10px;
+  margin-top: 14px;
+  flex-wrap:wrap;
+}
+
+.primaryBtn, .secondaryBtn{
+  padding: 12px 14px;
+  border-radius: 12px;
+  border:1px solid var(--line);
+  cursor:pointer;
+  font-weight: 900;
+  background: rgba(255,255,255,.02);
+  color: var(--text);
+}
+
+.secondaryBtn{ color: var(--muted); }
+
+.small{
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.list{
+  margin: 14px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+button:hover,
+a:hover,
+select:hover,
+.optBtn:hover,
+.primaryBtn:hover,
+.secondaryBtn:hover{
+  cursor: pointer;
+}
+
+/* ✅ Consistent spacing for FILTER BY and CATEGORY blocks */
+.sideCard .badge{
+  margin-bottom: 12px;
+}
+.sideCard .controls{
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+.sideCard select{
+  margin-top: 2px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.02);
+  color: var(--muted);
+  font-weight: 900;
+}
+
+/* Better contrast for correct / wrong feedback in LIGHT MODE */
+[data-theme="light"] .feedback.good{
+  color: #0f6b3f;
+  background: #e6f4ec;
+  border-color: rgba(15,107,63,.25);
+}
+
+[data-theme="light"] .feedback.bad{
+  color: #8f1d1d;
+  background: #fdecec;
+  border-color: rgba(143,29,29,.25);
+}
+
+/* ===== Desktop floating Study / Quiz tabs (inside container, right aligned) ===== */
+.floatTabs{
+  position: sticky;
+  bottom: 18px;
+  margin-left: auto;
+  width: fit-content;
+
+  transform: translateY(140%);
+  opacity: 0;
+  pointer-events: none;
+
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,.35);
+  z-index: 20;
+
+  transition: transform .24s cubic-bezier(.2,.9,.2,1), opacity .2s ease;
+}
+
+[data-theme="light"] .floatTabs{
+  background: rgba(255,255,255,.75);
+}
+
+.floatTabs.show{
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.floatTabs a{
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.floatTabs a.active{
+  color: var(--text);
+  background: rgba(255,255,255,.08);
+}
+
+/* hide on mobile */
+@media (max-width:700px){
+  .floatTabs{ display:none; }
+}
+
+/* Mobile */
+.bottomTabs{ display:none; }
+
+@media (max-width: 900px){
+  .quizWrap{ grid-template-columns: 1fr; }
+}
+
+@media (max-width:700px){
+  .container{ padding: 34px 16px 120px; }
+  .segment{ display:none; }
+
+  .table thead{ display:none; }
+  .table, .table tbody, .table tr, .table td{ display:block; width:100%; }
+
+  .table tr{
+    padding:14px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .table td{
+    border:none;
+    padding:6px 0;
+  }
+
+  .table td::before{
+    content: attr(data-label);
+    display:block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:var(--muted);
+    font-weight:900;
+    margin-bottom:4px;
+  }
+
+  .bottomTabs{
+    display:flex;
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:12px;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    backdrop-filter: blur(12px);
+    background:rgba(0,0,0,.4);
+    z-index:1000;
+  }
+
+  .bottomTabs a{
+    flex:1;
+    text-align:center;
+    padding:14px;
+    font-weight:900;
+    color:var(--muted);
+  }
+
+  .bottomTabs a.active{
+    color:var(--text);
+    background:rgba(255,255,255,.08);
+  }
+}
