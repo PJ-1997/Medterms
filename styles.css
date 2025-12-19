@@ -602,6 +602,7 @@ select:hover,
 
       height: 52px;
       min-height: 52px;
+         color: var(--muted) !important;   /* same as secondaryBtn text */
 
       padding: 0 48px 0 16px; /* room for arrow */
           font-size: 15px !important;   /* 👈 reduce from perceived 16px */
@@ -625,6 +626,11 @@ select:hover,
         calc(100% - 16px) 22px;
       background-size: 6px 6px;
       background-repeat: no-repeat;
+    }
+
+         /* When active / focused, match button active feel */
+    #categorySelect:focus{
+      color: var(--text) !important;
     }
 
     /* Light mode arrow contrast */
