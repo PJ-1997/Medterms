@@ -653,7 +653,11 @@ select:hover,
 }
 /* TEST: force obvious light-mode active tab */
 html[data-theme="light"] .bottomTabs a.active{
-  background: red !important;
-  color: #ffffff !important;
+  background: #e5e7eb;   /* iOS-style light gray */
+  color: #111827;        /* your --text color */
+}
+
+html[data-theme="light"] .bottomTabs a{
+  color: #6b7280;        /* your --muted */
 }
 
