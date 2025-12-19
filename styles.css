@@ -580,35 +580,60 @@ select:hover,
     color:var(--text);
     background:rgba(255,255,255,.08);
   }
-   @supports (-webkit-touch-callout: none) {
+  /* iOS Safari ONLY fixes */
+@supports (-webkit-touch-callout: none) {
   @media (max-width:700px){
 
-    /* Match the filter buttons height too (so both are identical) */
+    /* Match filter buttons exactly */
     .sideCard .controls .secondaryBtn{
       height: 52px;
       padding: 0 16px;
+      font-size: 15px;
+      font-weight: 900;
       display: inline-flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* Force the select height on iOS Safari */
+    /* CATEGORY SELECT */
     #categorySelect{
-      -webkit-appearance: none !important;
-      appearance: none !important;
+      -webkit-appearance: none;
+      appearance: none;
 
-      height: 52px !important;
-      min-height: 52px !important;
+      height: 52px;
+      min-height: 52px;
 
-      padding: 0 44px 0 16px !important; /* room for chevron */
-      line-height: 52px !important;      /* KEY for iOS */
-      font-size: 16px !important;        /* prevents Safari zoom */
-      font-weight: 700 !important;
+      padding: 0 48px 0 16px; /* room for arrow */
+      line-height: 52px;
 
-      border-radius: 12px !important;
-      display: block !important;
-      width: 100% !important;
+      font-size: 15px;        /* SAME as buttons */
+      font-weight: 900;       /* SAME as buttons */
+      font-family: inherit;   /* ensure same font */
+
+      border-radius: 12px;
+      width: 100%;
+      display: block;
+      background-color: rgba(255,255,255,.02);
+      color: var(--text);
+
+      /* Custom arrow */
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+        linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+      background-position:
+        calc(100% - 22px) 22px,
+        calc(100% - 16px) 22px;
+      background-size: 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    /* Light mode arrow contrast */
+    [data-theme="light"] #categorySelect{
+      background-image:
+        linear-gradient(45deg, transparent 50%, #5b6477 50%),
+        linear-gradient(135deg, #5b6477 50%, transparent 50%);
     }
   }
 }
+
 }
