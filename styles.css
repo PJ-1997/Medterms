@@ -628,9 +628,9 @@ select:hover,
     }
 
          /* When active / focused, match button active feel */
-    #categorySelect:focus{
+    /* #categorySelect:focus{
       color: var(--text) !important;
-    }
+    } */
 
     /* Light mode arrow contrast */
     [data-theme="light"] #categorySelect{
