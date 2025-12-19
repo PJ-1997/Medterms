@@ -473,13 +473,23 @@ select:hover,
 }
 
 @media (max-width:700px){
-     /* Make Category select match filter button height */
+  /* Force select to match button height on iOS */
   .sideCard select{
-    height: 52px;                 /* matches buttons */
-    padding: 0 16px;              /* horizontal padding */
+    appearance: none;
+    -webkit-appearance: none;
+
+    height: 52px;
+    line-height: 52px;        /* 👈 key for iOS */
+    padding: 0 44px 0 16px;   /* space for chevron */
+
     font-size: 16px;
     font-weight: 700;
     border-radius: 12px;
+  }
+
+  /* Optional: align chevron vertically */
+  .sideCard select{
+    background-position: right 16px center;
   }
      /* ===== MOBILE TYPE SCALE FIX ===== */
 
