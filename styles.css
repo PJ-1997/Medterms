@@ -648,5 +648,38 @@ select:hover,
     }
   }
 }
+   /* ===== MOBILE QUIZ HEADER ALIGNMENT (IMPORTANT) ===== */
+@media (max-width:700px){
+
+  /* Force top alignment between PREFIXES and score/streak */
+  .qTop{
+    align-items: flex-start;
+  }
+
+  /* Left label (PREFIXES) */
+  .qTop .badge{
+    margin-top: 2px;          /* fine-tune vertical alignment */
+    line-height: 1;
+  }
+
+  /* Right score/streak container */
+  .scoreBox{
+    align-items: flex-end;
+    margin-top: 0;
+  }
+
+  .scoreMeta,
+  .streakMeta{
+    line-height: 1;
+  }
+
+  /* Make emoji align visually with text */
+  .streakMeta #streakEmoji{
+    font-size: 22px;
+    line-height: 1;
+    vertical-align: top;
+  }
+}
+
 
 }
