@@ -587,7 +587,7 @@ select:hover,
 
   .bottomTabs a.active{
     color:var(--text);
-    background:rgba(255,255,255,.08);
+      background: #e5e7eb; /* soft iOS gray */
   }
   /* iOS Safari ONLY fixes */
 @supports (-webkit-touch-callout: none) {
