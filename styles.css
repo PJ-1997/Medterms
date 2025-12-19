@@ -473,10 +473,12 @@ select:hover,
 }
 
 @media (max-width:700px){
-   /* Align PREFIXES badge with top of score/streak */
-.qTop{
-  align-items: flex-start;
-}
+/* Quiz header: align the left MODE label with the top of the score line (mobile only) */
+.qTop{ align-items:flex-start; }
+.badge{ line-height:1; padding-top:3px; }
+.score{ line-height:1; }
+#streakEmoji{ font-size: 24px; line-height: 1; vertical-align: top; }
+
 
   /* Force select to match button height on iOS */
   .sideCard select{
