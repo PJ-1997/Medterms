@@ -481,10 +481,6 @@ select:hover,
     height: 52px;
     line-height: 52px;        /* 👈 key for iOS */
     padding: 0 44px 0 16px;   /* space for chevron */
-
-    font-size: 16px;
-    font-weight: 700;
-    border-radius: 12px;
   }
 
   /* Optional: align chevron vertically */
@@ -584,4 +580,35 @@ select:hover,
     color:var(--text);
     background:rgba(255,255,255,.08);
   }
+   @supports (-webkit-touch-callout: none) {
+  @media (max-width:700px){
+
+    /* Match the filter buttons height too (so both are identical) */
+    .sideCard .controls .secondaryBtn{
+      height: 52px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Force the select height on iOS Safari */
+    #categorySelect{
+      -webkit-appearance: none !important;
+      appearance: none !important;
+
+      height: 52px !important;
+      min-height: 52px !important;
+
+      padding: 0 44px 0 16px !important; /* room for chevron */
+      line-height: 52px !important;      /* KEY for iOS */
+      font-size: 16px !important;        /* prevents Safari zoom */
+      font-weight: 700 !important;
+
+      border-radius: 12px !important;
+      display: block !important;
+      width: 100% !important;
+    }
+  }
+}
 }
