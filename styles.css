@@ -589,15 +589,6 @@ select:hover,
   color: #6b7280;          /* same as --muted */
 }
 
-/* active tab */
-[data-theme="light"] .bottomTabs a.active{
-  color: #111827;          /* same as --text */
-  background: #e5e7eb;     /* soft iOS-style gray */
-}
-  .bottomTabs a.active{
-    color:var(--text);
-      background: #e5e7eb; /* soft iOS gray */
-  }
   /* iOS Safari ONLY fixes */
 @supports (-webkit-touch-callout: none) {
   @media (max-width:700px){
@@ -660,3 +651,9 @@ select:hover,
 }
 
 }
+/* TEST: force obvious light-mode active tab */
+html[data-theme="light"] .bottomTabs a.active{
+  background: red !important;
+  color: #ffffff !important;
+}
+
