@@ -85,7 +85,7 @@ h1{
 
 /* Light mode: make active tab clearly visible */
 [data-theme="light"] .segment a.active{
-  background: rgba(16, 19, 33, 0.08); /* soft neutral tint */
+   background: rgba(16, 19, 33, 0.12);
   color: var(--text);
   opacity: 1;
 }
