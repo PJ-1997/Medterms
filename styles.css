@@ -604,11 +604,11 @@ select:hover,
       min-height: 52px;
 
       padding: 0 48px 0 16px; /* room for arrow */
-      line-height: 52px;
-
-      font-size: 15px;        /* SAME as buttons */
-      font-weight: 900;       /* SAME as buttons */
-      font-family: inherit;   /* ensure same font */
+          font-size: 15px !important;   /* 👈 reduce from perceived 16px */
+      font-weight: 900 !important;
+      line-height: 1 !important;    /* 👈 critical: removes extra vertical scaling */
+      letter-spacing: 0 !important;
+      font-family: inherit !important;
 
       border-radius: 12px;
       width: 100%;
