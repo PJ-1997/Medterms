@@ -477,6 +477,7 @@ select:hover,
   .sideCard select{
     appearance: none;
     -webkit-appearance: none;
+     color: var(--muted);
 
     height: 52px;
     line-height: 52px;        /* 👈 key for iOS */
