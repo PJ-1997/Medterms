@@ -649,6 +649,12 @@ select:hover,
     }
   }
 }
+   /* FORCE: light mode active segment style */
+html[data-theme="light"] .segment a.active{
+  background: rgba(17, 24, 39, 0.12) !important;
+  opacity: 1 !important;
+  color: var(--text) !important;
+}
 
 
 }
