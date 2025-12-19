@@ -584,7 +584,16 @@ select:hover,
     font-weight:900;
     color:var(--muted);
   }
+/* inactive tabs */
+[data-theme="light"] .bottomTabs a{
+  color: #6b7280;          /* same as --muted */
+}
 
+/* active tab */
+[data-theme="light"] .bottomTabs a.active{
+  color: #111827;          /* same as --text */
+  background: #e5e7eb;     /* soft iOS-style gray */
+}
   .bottomTabs a.active{
     color:var(--text);
       background: #e5e7eb; /* soft iOS gray */
