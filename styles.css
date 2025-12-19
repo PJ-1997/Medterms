@@ -473,6 +473,11 @@ select:hover,
 }
 
 @media (max-width:700px){
+   /* Align PREFIXES badge with top of score/streak */
+.qTop{
+  align-items: flex-start;
+}
+
   /* Force select to match button height on iOS */
   .sideCard select{
     appearance: none;
